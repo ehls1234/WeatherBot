@@ -21,7 +21,7 @@ client.on("error", console.error);
 
 client.on('ready', () => {
   console.log(`${client.user.id}로 로그인 성공!`);
-  client.user.setActivity('//help by SEDY') //상태메시지
+  client.user.setActivity('!날씨 help by SEDY') //상태메시지
 });
 
 client.on("message", async message => {
