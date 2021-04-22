@@ -1,0 +1,24 @@
+{
+  "name": "discordweatherbotsedy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ehls1234/WeatherBot.git"
+  },
+  "author": "SEDY",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ehls1234/WeatherBot/issues"
+  },
+  "homepage": "https://github.com/ehls1234/WeatherBot#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "luxon": "^1.26.0",
+    "request": "^2.88.2"
+  }
+}
