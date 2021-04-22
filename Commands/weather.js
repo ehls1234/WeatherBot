@@ -4,14 +4,14 @@ module.exports = {
         const Discord = require('discord.js')
         const fs = require('fs')
         const date = new Date()
-        var tiem = 0200
+        var time = 0200
         const nowyear = date.getFullYear()
         const nowmonth = ("0" + (date.getMonth() + 1)).slice(-2)
         const nowdate = ("0" + date.getDate()).slice(-2)
         const format = nowyear+""+nowmonth+""+nowdate
         var request = require('request');
         var url = 'http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst';
-        var queryParams = '?' + encodeURIComponent('ServiceKey') + '=서비스 키';
+        var queryParams = '?' + encodeURIComponent('ServiceKey') + '=zoALXhvtGbPAtIKDwmsVk5KDDsO%2BaA7Y1CkDwLfdoxYk%2F3WHjJ68bvl27cvh%2BNOscS%2FuYHVspUWS%2BVgoIvr%2FAw%3D%3D';
         queryParams += '&' + encodeURIComponent('dataType') + '=' + encodeURIComponent('JSON'); 
         if(date.getHours() > 1){
             time = "0200"
