@@ -24,11 +24,7 @@ module.exports = {
             const API_URL = `https://api.openweathermap.org/data/2.5/onecall`
             // ?lat=${lat}&lon=${lon}&exclude=${part}&appid=${API_KEY}`
 
-            let cityname = result[0].location.name
-            let latitude = result[0].location.lat
-            let longitude = result[0].location.long
-
-            if (cityname == null) {
+            if (result[0] == null) {
                 return message.reply (
                     new Discord.MessageEmbed()
                         .setTitle("올바른 시를 입력해주세요")
@@ -36,6 +32,10 @@ module.exports = {
                         .addField("사용법","!내일날씨 <시/도>")
                 )
             }
+
+            let cityname = result[0].location.name
+            let latitude = result[0].location.lat
+            let longitude = result[0].location.long
 
             axios.get(API_URL, {
                 params: {
@@ -48,7 +48,7 @@ module.exports = {
             })
             .then(res => {
                 // 호출이 성공적으로 되면 res
-                console.log(res.data.daily[1])
+                //console.log(res.data.daily[1])
                 const toDay = res.data.daily[0]
                 let iconcode = toDay.weather[0].icon;
                 let iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
