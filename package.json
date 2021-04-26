@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/ehls1234/WeatherBot#readme",
   "dependencies": {
+    "axios": "^0.21.1",
     "discord.js": "^12.5.3",
     "luxon": "^1.26.0",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "weather-js": "^2.0.0"
   }
 }
