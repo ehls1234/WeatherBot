@@ -9,7 +9,7 @@ module.exports = {
         if(args[0] == null) return message.reply(new Discord.MessageEmbed().setTitle("올바른 시를 입력해주세요").setColor("#ff5858")
         .addField("사용법","!내일날씨 <시/도>"))
 
-        fs.readFile("./weatherData.json",function(err,result){
+        weatherjs.find({search: args.join(" "), degreeType: 'C'},function(err,result){
             if (err) {
                 return message.reply (
                     new Discord.MessageEmbed()
@@ -18,23 +18,17 @@ module.exports = {
                         .addField("사용법","!내일날씨 <시/도>")
                 )
             }
+            console.log(result[0])
 
-            const json = JSON.parse(result)
-            // console.log(json)
             const API_KEY = "c13f40978e5aeaf76792cac87a6b3de6"
             const API_URL = `https://api.openweathermap.org/data/2.5/onecall`
             // ?lat=${lat}&lon=${lon}&exclude=${part}&appid=${API_KEY}`
 
-            let city = null
+            let cityname = result[0].location.name
+            let latitude = result[0].location.lat
+            let longitude = result[0].location.long
 
-            for(let i = 0; i < json.length; i++){
-               if(args[0] == json[i][0]) {
-                    city = i
-                    break
-               }
-            }
-
-            if (city == null) {
+            if (cityname == null) {
                 return message.reply (
                     new Discord.MessageEmbed()
                         .setTitle("올바른 시를 입력해주세요")
@@ -45,8 +39,8 @@ module.exports = {
 
             axios.get(API_URL, {
                 params: {
-                   lat: json[city][3],
-                   lon: json[city][4],
+                   lat: latitude,
+                   lon: longitude,
                    excludes: 'hourly',
                    appid: API_KEY,
                    units: 'metric'
@@ -60,7 +54,7 @@ module.exports = {
                 let iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
                 return message.reply (
                     new Discord.MessageEmbed()
-                        .setTitle(`${json[city][0]}, KR`)
+                        .setTitle(`${cityname}`)
                         .setColor("#BFFF00")
                         .setAuthor('Openweathermap', 'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png', 'https://openweathermap.org/')
                         .setThumbnail(`${iconurl}`)
@@ -70,6 +64,7 @@ module.exports = {
                         )
                         .addField("습도", `${nextDay.humidity}%`)
                         .addField("강수 확률", `${nextDay.pop}%`)
+                        .addField("자외선 지수",`${nextDay.uvi} UVI`)
                         .setTimestamp()
                         .setFooter('Openweathermap By SEDY', 'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
                 )
