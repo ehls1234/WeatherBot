@@ -59,12 +59,16 @@ module.exports = {
                         .setAuthor('Openweathermap', 'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png', 'https://openweathermap.org/')
                         .setThumbnail(`${iconurl}`)
                         .addFields(
-                        {name:"최소 온도",value: `${toDay.temp.min}°C`,inline: true},
-                        {name:"최대 온도", value:`${toDay.temp.max}°C`, inline: true}
+                        {name:"최소 온도",value: `${nextDay.temp.min}°C`,inline: true},
+                        {name:"최대 온도", value:`${nextDay.temp.max}°C`, inline: true},
+                        {name:"평균 온도",value: `${nextDay.temp.day}°C`,inline: false},
+                        {name:"체감 온도", value:`${nextDay.feels_like.day}°C`, inline: false}
                         )
-                        .addField("습도", `${toDay.humidity}%`)
-                        .addField("강수 확률", `${toDay.pop}%`)
-                        .addField("자외선 지수",`${toDay.uvi} UVI`)
+                        .addFields(
+                        {name:"습도",value: `${nextDay.humidity}%`,inline: true},
+                        {name:"강수 확률", value:`${nextDay.pop}%`, inline: true},
+                        {name:"자외선 지수", value:`${nextDay.uvi} UVI`, inline: true}
+                        )
                         .setTimestamp()
                         .setFooter('Openweathermap By SEDY', 'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
                 )
