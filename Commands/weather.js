@@ -28,7 +28,7 @@ module.exports = {
             const API_URL = `https://api.openweathermap.org/data/2.5/onecall`
             // ?lat=${lat}&lon=${lon}&exclude=${part}&appid=${API_KEY}`
 
-            if (response.data == null) {
+            if (response.data.addresses[0].roadAddress == null) {
                 return message.reply (
                     new Discord.MessageEmbed()
                         .setTitle("올바른 시를 입력해주세요")
