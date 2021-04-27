@@ -28,12 +28,12 @@ module.exports = {
             const API_URL = `https://api.openweathermap.org/data/2.5/onecall`
             // ?lat=${lat}&lon=${lon}&exclude=${part}&appid=${API_KEY}`
 
-            if (response.data.addresses[0].roadAddress == null) {
+            if (response.data.addresses[0] == null) {
                 return message.reply (
                     new Discord.MessageEmbed()
-                        .setTitle("올바른 시를 입력해주세요")
+                        .setTitle("알수없는 주소 입니다. 정확한 주소를 입력해 주세요.")
                         .setColor("#ff5858")
-                        .addField("사용법","!오늘날씨 <시/도>")
+                        .addField("사용법","!오늘날씨 이름이 아닌 정확한 주소를 입력해 주세요.")
                 )
             }
 
