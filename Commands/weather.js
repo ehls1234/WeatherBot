@@ -55,6 +55,7 @@ module.exports = {
                 // 호출이 성공적으로 되면 res
                 //console.log(res.data.daily[1])
                 const toDay = res.data.current
+                const toDayDaily = res.data.daily[0]
                 let iconcode = toDay.weather[0].icon;
                 let iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
                 return message.reply (
@@ -64,14 +65,14 @@ module.exports = {
                         .setAuthor('Openweathermap', 'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png', 'https://openweathermap.org/')
                         .setThumbnail(`${iconurl}`)
                         .addFields(
-                        {name:"최소 온도",value: `${toDay.temp.min}°C`,inline: true},
-                        {name:"최대 온도", value:`${toDay.temp.max}°C`, inline: true},
-                        {name:"평균 온도",value: `${toDay.temp.day}°C`,inline: false},
-                        {name:"체감 온도", value:`${toDay.feels_like.day}°C`, inline: false}
+                        {name:"최소 온도",value: `${toDayDaily.temp.min}°C`,inline: true},
+                        {name:"최대 온도", value:`${toDayDaily.temp.max}°C`, inline: true},
+                        {name:"평균 온도",value: `${toDay.temp}°C`,inline: false},
+                        {name:"체감 온도", value:`${toDay.feels_like}°C`, inline: false}
                         )
                         .addFields(
                         {name:"습도",value: `${toDay.humidity}%`,inline: true},
-                        {name:"강수 확률", value:`${toDay.pop}%`, inline: true},
+                        {name:"강수 확률", value:`${toDayDaily.pop}%`, inline: true},
                         {name:"자외선 지수", value:`${toDay.uvi} UVI`, inline: true}
                         )
                         .setTimestamp()
