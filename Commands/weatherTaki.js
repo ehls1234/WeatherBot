@@ -85,5 +85,5 @@ module.exports = {
                 console.log(error.response)
                 // 네이버 호출이 실패하면 err
             })
-    }
-}
+    }//execute(message,args) 종료
+}//module.exports 종료

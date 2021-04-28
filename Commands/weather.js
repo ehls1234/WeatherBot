@@ -78,13 +78,13 @@ module.exports = {
                         )
                     })// openWeatherMap의 .then((response) => 종료
                     .catch(err => {
-                    console.error(err)
-                    // 오픈웨더 호출이 실패하면 err
+                        console.error(err)
+                        // 오픈웨더 호출이 실패하면 err
                     })
             })// naverGeo의 .then((response) => 종료
             .catch((error) => {
-            console.log(error.response)
-            // 네이버 호출이 실패하면 err
+                console.log(error.response)
+                // 네이버 호출이 실패하면 err
             })
-    }
-}
+    }//execute(message,args) 종료
+}//module.exports 종료
