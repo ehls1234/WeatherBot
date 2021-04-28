@@ -67,7 +67,7 @@ module.exports = {
                         .addFields(
                         {name:"최소 온도",value: `${toDayDaily.temp.min}°C`,inline: true},
                         {name:"최대 온도", value:`${toDayDaily.temp.max}°C`, inline: true},
-                        {name:"평균 온도",value: `${toDay.temp}°C`,inline: false},
+                        {name:"현재 온도",value: `${toDay.temp}°C`,inline: false},
                         {name:"체감 온도", value:`${toDay.feels_like}°C`, inline: false}
                         )
                         .addFields(
