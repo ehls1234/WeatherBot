@@ -54,7 +54,7 @@ module.exports = {
                 .then(res => {
                 // 호출이 성공적으로 되면 res
                 //console.log(res.data.daily[1])
-                const toDay = res.data.daily[0]
+                const toDay = res.data.current
                 let iconcode = toDay.weather[0].icon;
                 let iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
                 return message.reply (
