@@ -1,9 +1,7 @@
 module.exports = {
     name: "내일날씨",
     execute(message,args){
-        const weatherjs = require('weather-js')
         const Discord = require('discord.js')
-        const fs = require('fs')
         const axios = require('axios').default
 
         if(args[0] == null) return message.reply(new Discord.MessageEmbed().setTitle("올바른 시를 입력해주세요").setColor("#ff5858")
