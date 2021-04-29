@@ -46,4 +46,8 @@ client.on('message',msg=>{
     }
 })
 
+client.on('error', err => {
+    console.error(err)
+})
+
 client.login(token) // 토큰을 가져온다
