@@ -62,13 +62,15 @@ module.exports = {
                             .addFields(
                             {name:"최소 온도",value: `${nextDay.temp.min}°C`,inline: true},
                             {name:"최대 온도", value:`${nextDay.temp.max}°C`, inline: true},
-                            {name:"평균 온도",value: `${nextDay.temp.day}°C`,inline: false},
-                            {name:"체감 온도", value:`${nextDay.feels_like.day}°C`, inline: false}
+                            {name:"자외선 지수", value:`${nextDay.uvi} UVI`, inline: true},
+                            {name:"평균 온도",value: `${nextDay.temp.day}°C`,inline: true},
+                            {name:"체감 온도", value:`${nextDay.feels_like.day}°C`, inline: true},
+                            {name:"습도",value: `${nextDay.humidity}%`,inline: true}
                             )
                             .addFields(
-                            {name:"습도",value: `${nextDay.humidity}%`,inline: true},
                             {name:"강수 확률", value:`${nextDay.pop}%`, inline: true},
-                            {name:"자외선 지수", value:`${nextDay.uvi} UVI`, inline: true}
+                            {name:"강수량", value:`${nextDay.rain}mm`, inline: true},
+                            {name:"적설량", value:`${nextDay.snow}mm`, inline: true}
                             )
                             .setTimestamp()
                             .setFooter('Openweathermap By SEDY', 'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')

@@ -63,13 +63,15 @@ module.exports = {
                             .addFields(
                             {name:"최소 온도",value: `${toDayDaily.temp.min}°C`,inline: true},
                             {name:"최대 온도", value:`${toDayDaily.temp.max}°C`, inline: true},
-                            {name:"현재 온도",value: `${toDay.temp}°C`,inline: false},
-                            {name:"체감 온도", value:`${toDay.feels_like}°C`, inline: false}
+                            {name:"자외선 지수", value:`${toDay.uvi} UVI`, inline: true},
+                            {name:"현재 온도",value: `${toDay.temp}°C`,inline: true},
+                            {name:"체감 온도", value:`${toDay.feels_like}°C`, inline: true},
+                            {name:"습도",value: `${toDay.humidity}%`,inline: true}
                             )
                             .addFields(
-                            {name:"습도",value: `${toDay.humidity}%`,inline: true},
-                            {name:"강수 확률", value:`${toDayDaily.pop}%`, inline: true},
-                            {name:"자외선 지수", value:`${toDay.uvi} UVI`, inline: true}
+                            {name:"강수 확률", value:`${toDayDaily.pop*100}%`, inline: true},
+                            {name:"강수량", value:`${toDayDaily.rain}mm`, inline: true},
+                            {name:"적설량", value:`${toDayDaily.snow}mm`, inline: true}
                             )
                             .setTimestamp()
                             .setFooter('Openweathermap By SEDY', 'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
