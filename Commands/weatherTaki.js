@@ -53,6 +53,23 @@ module.exports = {
                         const nextDay = res.data.daily[1]
                         let iconcode = nextDay.weather[0].icon;
                         let iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+                        
+                        let rainValue = null
+                        let snowValue = null
+                        if(nextDay.rain == null){
+                            rainValue = "0"
+                        }
+                        else{
+                            rainValue = nextDay.rain
+                        }
+
+                        if(nextDay.snow == null){
+                            snowValue = "0"
+                        }
+                        else{
+                            snowValue = nextDay.snow
+                        }
+
                         return message.reply (
                             new Discord.MessageEmbed()
                             .setTitle(`${cityname}`)
@@ -68,9 +85,9 @@ module.exports = {
                             {name:"습도",value: `${nextDay.humidity}%`,inline: true}
                             )
                             .addFields(
-                            {name:"강수 확률", value:`${nextDay.pop}%`, inline: true},
-                            {name:"강수량", value:`${nextDay.rain}mm`, inline: true},
-                            {name:"적설량", value:`${nextDay.snow}mm`, inline: true}
+                            {name:"강수 확률", value:`${nextDay.pop*100}%`, inline: true},
+                            {name:"강수량", value:`${rainValue}mm`, inline: true},
+                            {name:"적설량", value:`${snowValue}mm`, inline: true}
                             )
                             .setTimestamp()
                             .setFooter('Openweathermap By SEDY', 'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')

@@ -54,24 +54,23 @@ module.exports = {
                         const toDayDaily = res.data.daily[0]
                         let iconcode = toDay.weather[0].icon;
                         let iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
-                        const snowValue = null
-                        const rainValue = null
-                        switch(toDayDaily.rain){
-                            case    
-                                'undefined' :
-                                rainValue = '0'
-                            break; 
+                       
+                        let rainValue = null
+                        let snowValue = null
+                        if(toDayDaily.rain == null){
+                            rainValue = "0"
+                        }
+                        else{
+                            rainValue = toDayDaily.rain
+                        }
 
-                            default:
-                            break;}
-                        switch(toDayDaily.snow){
-                            case    
-                                'undefined' :
-                                snowValue = '0'
-                            break; 
+                        if(toDayDaily.snow == null){
+                            snowValue = "0"
+                        }
+                        else{
+                            snowValue = toDayDaily.snow
+                        }
 
-                            default:
-                            break;}
                         return message.reply (
                             new Discord.MessageEmbed()
                             .setTitle(`${cityname}`)
