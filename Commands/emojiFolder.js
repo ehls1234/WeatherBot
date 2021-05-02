@@ -7,33 +7,33 @@ module.exports = {
         if(args[0] == null) return message.reply(new Discord.MessageEmbed().setTitle("올바른 정보를 입력해 주세요.").setColor("#ff5858")
         .addField("사용법","!이모지 확인"))
 
-            if (args[0] === "확인"){
-                let list1 = stripIndents`
-                Test number one.
+        if (args[0] === "확인"){
+            let list1 = stripIndents`
+            Test number one.
 
-                one.
-                `
+            one.
+            `
 
-                let list2 = stripIndents`
-                Also, this one.
+            let list2 = stripIndents`
+            Also, this one.
 
-                Two
-                `
+            Two
+            `
 
-                let list3 = stripIndents`
-                Also, this one.
+            let list3 = stripIndents`
+            Also, this one.
 
-                **three**
-                `
+            **three**
+            `
 
-                let pages = [list1,list2,list3]
-                let page = 1
+            let pages = [list1,list2,list3]
+            let page = 1
 
-                const embed = new Discord.MessageEmbed()
-                .setFooter(`Page: ${page} / ${pages.length}`)
-                .setDescription(pages[page - 1])
+            const embed = new Discord.MessageEmbed()
+            .setFooter(`Page: ${page} / ${pages.length}`)
+            .setDescription(pages[page - 1])
 
-                message.channel.send(embed).then(sendEmbed => {
+            message.channel.send(embed).then(sendEmbed => {
 
                 if (pages.length === 1) return
 
