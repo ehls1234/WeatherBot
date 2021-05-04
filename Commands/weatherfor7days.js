@@ -3,7 +3,6 @@ module.exports = {
     execute(message,args){
         const Discord = require('discord.js')
         const axios = require('axios')
-        const {stripIndents} = require('common-tags')
         
         if(args[0] == null) return message.reply(new Discord.MessageEmbed().setTitle("올바른 정보를 입력해 주세요.").setColor("#ff5858")
         .addField("사용법","!7일날씨 <시/도>"))
@@ -68,7 +67,7 @@ module.exports = {
             toDayDaily1.temp.day+"°C",
             toDayDaily1.feels_like.day+"°C",
             toDayDaily1.humidity+"%",
-            toDayDaily1.pop*100+"%",
+            Math.floor(toDayDaily1.pop*100)+"%",
             toDayDaily1.rain+"mm",
             toDayDaily1.snow+"mm",
             toDayDaily1.weather[0].icon]
@@ -80,7 +79,7 @@ module.exports = {
             toDayDaily2.temp.day+"°C",
             toDayDaily2.feels_like.day+"°C",
             toDayDaily2.humidity+"%",
-            toDayDaily2.pop*100+"%",
+            Math.floor(toDayDaily2.pop*100)+"%",
             toDayDaily2.rain+"mm",
             toDayDaily2.snow+"mm",
             toDayDaily2.weather[0].icon]
@@ -92,7 +91,7 @@ module.exports = {
             toDayDaily3.temp.day+"°C",
             toDayDaily3.feels_like.day+"°C",
             toDayDaily3.humidity+"%",
-            toDayDaily3.pop*100+"%",
+            Math.floor(toDayDaily3.pop*100)+"%",
             toDayDaily3.rain+"mm",
             toDayDaily3.snow+"mm",
             toDayDaily3.weather[0].icon]
@@ -104,7 +103,7 @@ module.exports = {
             toDayDaily4.temp.day+"°C",
             toDayDaily4.feels_like.day+"°C",
             toDayDaily4.humidity+"%",
-            toDayDaily4.pop*100+"%",
+            Math.floor(toDayDaily4.pop*100)+"%",
             toDayDaily4.rain+"mm",
             toDayDaily4.snow+"mm",
             toDayDaily4.weather[0].icon]
@@ -116,7 +115,7 @@ module.exports = {
             toDayDaily5.temp.day+"°C",
             toDayDaily5.feels_like.day+"°C",
             toDayDaily5.humidity+"%",
-            toDayDaily5.pop*100+"%",
+            Math.floor(toDayDaily5.pop*100)+"%",
             toDayDaily5.rain+"mm",
             toDayDaily5.snow+"mm",
             toDayDaily5.weather[0].icon]
@@ -128,7 +127,7 @@ module.exports = {
             toDayDaily6.temp.day+"°C",
             toDayDaily6.feels_like.day+"°C",
             toDayDaily6.humidity+"%",
-            toDayDaily6.pop*100+"%",
+            Math.floor(toDayDaily6.pop*100)+"%",
             toDayDaily6.rain+"mm",
             toDayDaily6.snow+"mm",
             toDayDaily6.weather[0].icon]
@@ -140,7 +139,7 @@ module.exports = {
             toDayDaily7.temp.day+"°C",
             toDayDaily7.feels_like.day+"°C",
             toDayDaily7.humidity+"%",
-            toDayDaily7.pop*100+"%",
+            Math.floor(toDayDaily7.pop*100)+"%",
             toDayDaily7.rain+"mm",
             toDayDaily7.snow+"mm",
             toDayDaily7.weather[0].icon]
@@ -169,7 +168,6 @@ module.exports = {
             .setTimestamp()
             .setFooter(`SEDY Weather Page: ${page} / ${pages.length}`,'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
             const weatherFields = embed.fields.map(v => v)
-            let iconurl = "http://openweathermap.org/img/w/" + pages[page - 1][9] + ".png"
 
             if(pages[page - 1][7] === undefined+"mm"){
                 weatherFields[7].value = "0mm"
