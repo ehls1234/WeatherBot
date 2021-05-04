@@ -6,7 +6,7 @@ module.exports = {
         const {stripIndents} = require('common-tags')
         
         if(args[0] == null) return message.reply(new Discord.MessageEmbed().setTitle("올바른 정보를 입력해 주세요.").setColor("#ff5858")
-        .addField("사용법","!이모지 확인"))
+        .addField("사용법","!7일날씨 <시/도>"))
 
         const naverGeo = {
             headers: {
@@ -30,7 +30,7 @@ module.exports = {
                     new Discord.MessageEmbed()
                     .setTitle("알수없는 주소 입니다.")
                     .setColor("#ff5858")
-                    .addField("사용법","!오늘날씨 이름이 아닌 정확한 주소를 입력해 주세요.")
+                    .addField("사용법","!7일날씨 이름이 아닌 정확한 주소를 입력해 주세요.")
                 )
             }
 
