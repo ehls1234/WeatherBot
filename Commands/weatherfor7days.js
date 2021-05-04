@@ -158,7 +158,7 @@ module.exports = {
                 {name:"최소 온도",value: `${pages[page - 1][0]}`,inline: true},
                 {name:"최대 온도", value:`${pages[page - 1][1]}`, inline: true},
                 {name:"자외선 지수", value:`${pages[page - 1][2]}`, inline: true},
-                {name:"현재 온도",value: `${pages[page - 1][3]}`,inline: true},
+                {name:"평균 온도",value: `${pages[page - 1][3]}`,inline: true},
                 {name:"체감 온도", value:`${pages[page - 1][4]}`, inline: true},
                 {name:"습도",value: `${pages[page - 1][5]}`,inline: true},
                 {name:"강수 확률", value:`${pages[page - 1][6]}`, inline: true},
