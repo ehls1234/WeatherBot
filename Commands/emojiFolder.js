@@ -7,7 +7,9 @@ module.exports = {
         if(args[0] == null) return message.reply(new Discord.MessageEmbed().setTitle("올바른 정보를 입력해 주세요.").setColor("#ff5858")
         .addField("사용법","!이모지 확인"))
 
-        if (args[0] === "확인"){
+
+        
+        if(args[0] === "확인"){
             let list1 = stripIndents`
             Test number one.
 
