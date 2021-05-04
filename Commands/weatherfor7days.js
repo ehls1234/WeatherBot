@@ -306,8 +306,7 @@ module.exports = {
                     }
                     sendEmbed.edit(embed)
                 })
-            }
-        )
+            })
     })// openWeatherMap의 .then((response) => 종료
     .catch(err => {
         console.error(err)

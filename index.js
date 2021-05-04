@@ -15,7 +15,7 @@ for(const file of commandFiles){
 
 client.on('ready', ()=>{
     console.log("봇이 준비되었습니다") // 봇이 준비되면 콘솔에 봇이 준비 되었습니다 출력
-    client.user.setActivity('!오늘날씨, !내일날씨, !7일날씨') //상태메시지
+    client.user.setActivity('!날씨도움말') //상태메시지
 })
 
 client.on('message',msg=>{
