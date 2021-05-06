@@ -178,13 +178,13 @@ module.exports = {
 
             message.channel.send(embed).then(sendEmbed => {
 
+                const emojiBox = ["⏪","◀","⏺","▶","⏩"]
+                
                 if (pages.length === 1) return
-
-                sendEmbed.react("⏪")
-                sendEmbed.react("◀")
-                sendEmbed.react("⏺")
-                sendEmbed.react("▶")
-                sendEmbed.react("⏩")
+                
+                for(let i = 0; i < 5; i++){
+                    sendEmbed.react(emojiBox[i])
+                }
                 
                 const backwardFilter = (reaction, user) => reaction.emoji.name === "◀" && user.id === message.author.id
                 const forwardFilter = (reaction, user) => reaction.emoji.name === "▶" && user.id === message.author.id
@@ -209,15 +209,9 @@ module.exports = {
                     page--
                     embed.setDescription(`${page}일차 예보 날씨`).setFooter(`SEDY Weather page: ${page} / ${pages.length}`,'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
                     embed.setThumbnail(`${"http://openweathermap.org/img/w/" + pages[page - 1][9] + ".png"}`)
-                    weatherFields[0].value = pages[page - 1][0]
-                    weatherFields[1].value = pages[page - 1][1]
-                    weatherFields[2].value = pages[page - 1][2]
-                    weatherFields[3].value = pages[page - 1][3]
-                    weatherFields[4].value = pages[page - 1][4]
-                    weatherFields[5].value = pages[page - 1][5]
-                    weatherFields[6].value = pages[page - 1][6]
-                    weatherFields[7].value = pages[page - 1][7]
-                    weatherFields[8].value = pages[page - 1][8]
+                    for(let v = 0; v < 9; v++){
+                        weatherFields[v].value = pages[page - 1][v]
+                    }
                     if(pages[page - 1][7] === undefined+"mm"){
                         weatherFields[7].value = "0mm"
                     }
@@ -234,15 +228,9 @@ module.exports = {
                     page++
                     embed.setDescription(`${page}일차 예보 날씨`).setFooter(`SEDY Weather page: ${page} / ${pages.length}`,'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
                     embed.setThumbnail(`${"http://openweathermap.org/img/w/" + pages[page - 1][9] + ".png"}`)
-                    weatherFields[0].value = pages[page - 1][0]
-                    weatherFields[1].value = pages[page - 1][1]
-                    weatherFields[2].value = pages[page - 1][2]
-                    weatherFields[3].value = pages[page - 1][3]
-                    weatherFields[4].value = pages[page - 1][4]
-                    weatherFields[5].value = pages[page - 1][5]
-                    weatherFields[6].value = pages[page - 1][6]
-                    weatherFields[7].value = pages[page - 1][7]
-                    weatherFields[8].value = pages[page - 1][8]
+                    for(let v = 0; v < 9; v++){
+                        weatherFields[v].value = pages[page - 1][v]
+                    }
                     if(pages[page - 1][7] === undefined+"mm"){
                         weatherFields[7].value = "0mm"
                     }
@@ -264,15 +252,9 @@ module.exports = {
                     page = pages.length
                     embed.setDescription(`${page}일차 예보 날씨`).setFooter(`SEDY Weather page: ${page} / ${pages.length}`,'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
                     embed.setThumbnail(`${"http://openweathermap.org/img/w/" + pages[page - 1][9] + ".png"}`)
-                    weatherFields[0].value = pages[page - 1][0]
-                    weatherFields[1].value = pages[page - 1][1]
-                    weatherFields[2].value = pages[page - 1][2]
-                    weatherFields[3].value = pages[page - 1][3]
-                    weatherFields[4].value = pages[page - 1][4]
-                    weatherFields[5].value = pages[page - 1][5]
-                    weatherFields[6].value = pages[page - 1][6]
-                    weatherFields[7].value = pages[page - 1][7]
-                    weatherFields[8].value = pages[page - 1][8]
+                    for(let v = 0; v < 9; v++){
+                        weatherFields[v].value = pages[page - 1][v]
+                    }
                     if(pages[page - 1][7] === undefined+"mm"){
                         weatherFields[7].value = "0mm"
                     }
@@ -289,15 +271,9 @@ module.exports = {
                     page = 1
                     embed.setDescription(`${page}일차 예보 날씨`).setFooter(`SEDY Weather page: ${page} / ${pages.length}`,'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
                     embed.setThumbnail(`${"http://openweathermap.org/img/w/" + pages[page - 1][9] + ".png"}`)
-                    weatherFields[0].value = pages[page - 1][0]
-                    weatherFields[1].value = pages[page - 1][1]
-                    weatherFields[2].value = pages[page - 1][2]
-                    weatherFields[3].value = pages[page - 1][3]
-                    weatherFields[4].value = pages[page - 1][4]
-                    weatherFields[5].value = pages[page - 1][5]
-                    weatherFields[6].value = pages[page - 1][6]
-                    weatherFields[7].value = pages[page - 1][7]
-                    weatherFields[8].value = pages[page - 1][8]
+                    for(let v = 0; v < 9; v++){
+                        weatherFields[v].value = pages[page - 1][v]
+                    }
                     if(pages[page - 1][7] === undefined+"mm"){
                         weatherFields[7].value = "0mm"
                     }
