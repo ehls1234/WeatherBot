@@ -35,16 +35,16 @@ module.exports = {
             .setFooter(`Page: ${page} / ${pages.length}`)
             .setDescription(pages[page - 1])
 
+            const emojiBox = ["⏪","◀","⏺","▶","⏩"]
+
             message.channel.send(embed).then(sendEmbed => {
 
                 if (pages.length === 1) return
 
-                sendEmbed.react("⏪")
-                sendEmbed.react("◀")
-                sendEmbed.react("⏺")
-                sendEmbed.react("▶")
-                sendEmbed.react("⏩")
-                
+                for(let i = 0; i < 5; i++){
+                sendEmbed.react(emojiBox[i])
+                }
+
                 const backwardFilter = (reaction, user) => reaction.emoji.name === "◀" && user.id === message.author.id
                 const forwardFilter = (reaction, user) => reaction.emoji.name === "▶" && user.id === message.author.id
                 const stopFilter = (reaction, user) => reaction.emoji.name === "⏺" && user.id === message.author.id
