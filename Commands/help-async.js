@@ -80,13 +80,13 @@ module.exports = {
 
         const embed = new Discord.MessageEmbed()
             .setColor('#0099ff')
-	        .setAuthor('SEDY Weather bot Help', 'https://theme.zdassets.com/theme_assets/678183/af1a442f9a25a27837f17805b1c0cfa4d1725f90.png')
+	        .setAuthor('SEDY Weather bot Help', 'https://www.pinclipart.com/picdir/big/83-837011_image-result-for-coffee-icon-coffee-icon-png.png')
 	        .setTitle('어떤 걸 알고 싶으세요?')
             .setDescription(pages[page - 1])
-	        .setThumbnail('https://theme.zdassets.com/theme_assets/678183/af1a442f9a25a27837f17805b1c0cfa4d1725f90.png')
+	        .setThumbnail('https://www.pinclipart.com/picdir/big/83-837011_image-result-for-coffee-icon-coffee-icon-png.png')
             .setImage("")
 	        .setTimestamp()
-	        .setFooter('SEDY Weather bot', 'https://theme.zdassets.com/theme_assets/678183/af1a442f9a25a27837f17805b1c0cfa4d1725f90.png')
+	        .setFooter('SEDY Weather bot', 'https://www.pinclipart.com/picdir/big/83-837011_image-result-for-coffee-icon-coffee-icon-png.png')
         
         const sendEmbed = await message.channel.send(embed)
             
