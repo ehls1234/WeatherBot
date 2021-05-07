@@ -74,7 +74,7 @@ module.exports = {
 
                         const embed = new Discord.MessageEmbed()
                             .setTitle(`${cityname}`)
-                            .setColor("#BFFF00")
+                            .setColor("#4682b4")
                             .setAuthor('SEDY Weather Bot','https://www.pinclipart.com/picdir/big/83-837011_image-result-for-coffee-icon-coffee-icon-png.png')
                             .setDescription('사용후 "❌"이모지를 눌러주세요.')
                             .setThumbnail(`${iconurl}`)
