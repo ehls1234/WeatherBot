@@ -92,10 +92,11 @@ module.exports = {
             
         if (pages.length === 1) return
 
-        sendEmbed.react("1️⃣")
-        sendEmbed.react("2️⃣")
-        sendEmbed.react("3️⃣")
-        sendEmbed.react("❌")
+        const emojiBox = ["1️⃣","2️⃣","3️⃣","❌","Ⓜ"]
+
+        for(let i = 0; i < 4; i++){
+            sendEmbed.react(emojiBox[i])
+        }
 
         const stopFilter = (reaction, user) => reaction.emoji.name === "❌" && user.id === message.author.id
         const oneFilter = (reaction, user) => reaction.emoji.name === "1️⃣" && user.id === message.author.id
