@@ -3,6 +3,7 @@ module.exports = {
     execute(message,args){
         const Discord = require('discord.js')
         const axios = require('axios').default
+        const {stripIndents} = require('common-tags')
 
         if(args[0] == null) return message.reply(new Discord.MessageEmbed().setTitle("올바른 시를 입력해주세요").setColor("#ff5858")
         .addField("사용법","!내일날씨 <시/도>"))
@@ -70,28 +71,46 @@ module.exports = {
                             snowValue = nextDay.snow
                         }
 
-                        return message.reply (
-                            new Discord.MessageEmbed()
+                        const embed = new Discord.MessageEmbed()
                             .setTitle(`${cityname}`)
                             .setColor("#BFFF00")
-                            .setAuthor('Openweathermap', 'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png', 'https://openweathermap.org/')
+                            .setAuthor('SEDY Weather Bot','https://www.pinclipart.com/picdir/big/83-837011_image-result-for-coffee-icon-coffee-icon-png.png')
+                            .setDescription('사용 후 "❌"이모지를 눌러주세요.')
                             .setThumbnail(`${iconurl}`)
                             .addFields(
-                            {name:"최소 온도",value: `${nextDay.temp.min}°C`,inline: true},
-                            {name:"최대 온도", value:`${nextDay.temp.max}°C`, inline: true},
-                            {name:"자외선 지수", value:`${nextDay.uvi} UVI`, inline: true},
-                            {name:"평균 온도",value: `${nextDay.temp.day}°C`,inline: true},
-                            {name:"체감 온도", value:`${nextDay.feels_like.day}°C`, inline: true},
-                            {name:"습도",value: `${nextDay.humidity}%`,inline: true}
-                            )
-                            .addFields(
-                            {name:"강수 확률", value:`${nextDay.pop*100}%`, inline: true},
-                            {name:"강수량", value:`${rainValue}mm`, inline: true},
-                            {name:"적설량", value:`${snowValue}mm`, inline: true}
+                            {name:"🌡온도",value: `${stripIndents`
+                            최소 :  ${nextDay.temp.min}°C  ,  최대 :  ${nextDay.temp.max}°C
+                            아침 평균 :  ${nextDay.temp.morn}°C  ,  아침 체감 :  ${nextDay.feels_like.morn}°C
+                            낮 평균 :  ${nextDay.temp.day}°C  ,  낮 체감 :  ${nextDay.feels_like.day}°C
+                            밤 평균 :  ${nextDay.temp.night}°C  ,  밤 체감 :  ${nextDay.feels_like.night}°C
+                            `}`,inline: false},
+
+                            {name:"🌦날씨",value: `${stripIndents`
+                            습도 : ${nextDay.humidity}%
+                            강수 확률 : ${nextDay.pop*100}%
+                            강수량 : ${rainValue}mm
+                            `}`,inline: false},
+
+                            {name:"🚨자외선 지수", value:`${nextDay.uvi} UVI`, inline: false},
+                            {name:"🌬바람",value: `${stripIndents`
+                            풍속 : ${nextDay.wind_speed}m/s
+                            `}`,inline: false}
                             )
                             .setTimestamp()
                             .setFooter('Openweathermap By SEDY', 'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
-                        )
+                        
+
+                        message.channel.send(embed).then(sendEmbed=>{
+                            sendEmbed.react("❌")
+
+                            const stopFilter = (reaction, user) => reaction.emoji.name === "❌" && user.id === message.author.id
+                            const stop = sendEmbed.createReactionCollector(stopFilter, {time: 900000, dispose: true})
+                            
+                            //stop
+                            stop.on("collect", r => {
+                                return sendEmbed.delete()
+                            })
+                        })
                     })// openWeatherMap의 .then((response) => 종료
                     .catch(err => {
                         console.error(err)
