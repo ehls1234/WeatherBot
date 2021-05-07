@@ -1,6 +1,6 @@
 module.exports = {
     name: "이모지",
-    execute(message,args){
+    async execute(message,args){
         const Discord = require('discord.js')
         const {stripIndents} = require('common-tags')
         
@@ -35,14 +35,13 @@ module.exports = {
             .setFooter(`Page: ${page} / ${pages.length}`)
             .setDescription(pages[page - 1])
 
+            const sendEmbed = await message.channel.send(embed)
             const emojiBox = ["⏪","◀","⏺","▶","⏩"]
-
-            message.channel.send(embed).then(sendEmbed => {
-
+                
                 if (pages.length === 1) return
 
-                for(let i = 0; i < 5; i++){
-                sendEmbed.react(emojiBox[i])
+               for(let i = 0; i < 5; i++){
+                    sendEmbed.react(emojiBox[i])
                 }
 
                 const backwardFilter = (reaction, user) => reaction.emoji.name === "◀" && user.id === message.author.id
@@ -98,7 +97,7 @@ module.exports = {
                     sendEmbed.edit(embed)
                 })
             }
-        )}
+        
 
         /*const axios = require('axios').default
 
