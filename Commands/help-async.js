@@ -116,7 +116,7 @@ module.exports = {
         const mainEmoji = sendEmbed.createReactionCollector(mainFilter, {time: 900000, dispose: true})
     
         stop.on("collect", r => {
-            return sendEmbed.delete()
+            return sendEmbed.delete(),message.delete()
         })
 
         mainEmoji.on("collect", async r => {
