@@ -38,8 +38,28 @@ module.exports = {
         let longitude = naverAxios.data.addresses[0].x
         let guName = cityname.slice().trim().split(/ +/)   //args[1]
 
-        let concentration10 = null, concentration25 = null, pm10Value = null, pm25Value = null, isDustProcessed = false
+        let dustToDay = new Date()
+        let dustYear = dustToDay.getFullYear()   // 년도
+        let dustMonth = dustToDay.getMonth() + 1 // 월
+        let dustDate = dustToDay.getDate()       // 날짜
+        if(dustMonth < 10){
+            dustMonth = "0" + (dustToDay.getMonth() + 1)
+        }
+        let dustDay = `${dustYear}-${dustMonth}-${dustDate}`
 
+        const dustForecastAxios = await axios
+            .get(`http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMinuDustFrcstDspth`,{
+                params: {
+                    serviceKey: "zoALXhvtGbPAtIKDwmsVk5KDDsO+aA7Y1CkDwLfdoxYk/3WHjJ68bvl27cvh+NOscS/uYHVspUWS+VgoIvr/Aw==",
+                    returnType: "json",
+                    searchDate: dustDay
+                }
+            })
+        const dustForecastData = dustForecastAxios.data.response.body.items[0]
+
+
+        let concentration10 = null, concentration25 = null, pm10Value = null, pm25Value = null, isDustProcessed = false
+        
         const dustAxios = await axios 
             .get(`http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty`,{
                 params: {
@@ -131,7 +151,7 @@ module.exports = {
 
             {name:"🌦날씨",value: `${stripIndents`
             습도 : ${toDay.humidity}%
-            강수 확률 : ${toDayDaily.pop*100}%
+            강수 확률 : ${Math.floor(toDayDaily.pop*100)}%
             강수량 : ${rainValue}mm
             `}`,inline: false},
 
@@ -148,6 +168,17 @@ module.exports = {
             `}`,inline: false})
         }
 
+        const Dustfields = [            
+        {name:"미세먼지 정보",value: `${stripIndents`
+        **발생원인**
+        ${dustForecastData.informCause}
+        **예보개황**
+        ${dustForecastData.informOverall}
+        **통보시간**
+        ${dustForecastData.dataTime}
+        `}`,inline: false}
+        ]
+
         const embed = new Discord.MessageEmbed()
             .setTitle(`${cityname}`)
             .setColor("#4682b4")
@@ -155,16 +186,73 @@ module.exports = {
             .setDescription('사용후 "❌"이모지를 눌러주세요.')
             .setThumbnail(`${iconurl}`)
             .addFields(fields)
-
             .setTimestamp()
-            .setFooter('Openweathermap By SEDY', 'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
+            .setFooter('Openweathermap By SEDY// 🌫 = 미세먼지', 'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
 
         const sendEmbed = await message.channel.send(embed)
         sendEmbed.react("❌")
+        sendEmbed.react("🌫")
 
         const stopFilter = (reaction, user) => reaction.emoji.name === "❌" && user.id === message.author.id
+        const dustFilter = (reaction, user) => reaction.emoji.name === "🌫" && user.id === message.author.id
+        const mainFilter = (reaction, user) => reaction.emoji.name === "Ⓜ" && user.id === message.author.id
+        const pm10imgFilter = (reaction, user) => reaction.emoji.name === "🟨" && user.id === message.author.id
+        const pm25imgFilter = (reaction, user) => reaction.emoji.name === "🟥" && user.id === message.author.id
+
+
         const stop = sendEmbed.createReactionCollector(stopFilter, {time: 900000, dispose: true})
-        
+        const dust = sendEmbed.createReactionCollector(dustFilter, {time: 900000, dispose: true})
+        const main = sendEmbed.createReactionCollector(mainFilter, {time: 900000, dispose: true})
+        const pm10img = sendEmbed.createReactionCollector(pm10imgFilter, {time: 900000, dispose: true})
+        const pm25img = sendEmbed.createReactionCollector(pm25imgFilter, {time: 900000, dispose: true})
+
+        main.on("collect",async r => {
+            r.users.remove(message.author.id)
+            embed.fields = fields
+            embed.image = null
+            embed.setFooter('Openweathermap By SEDY// 🌫 = 미세먼지', 'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
+            await sendEmbed.reactions.removeAll()
+            sendEmbed.react("❌")
+            sendEmbed.react("🌫")
+            sendEmbed.edit(embed)
+        })
+
+        dust.on("collect",async r => {
+            r.users.remove(message.author.id)
+            embed.fields = null
+            embed.setFooter(`🟥 = PM2.5 , 🟨 = PM10`)
+            embed.fields = Dustfields
+            embed.setImage(`${dustForecastData.imageUrl1}`)
+            await sendEmbed.reactions.removeAll()
+            sendEmbed.react("❌")
+            sendEmbed.react("Ⓜ")
+            sendEmbed.react("🟥")
+            sendEmbed.edit(embed)
+        })
+
+        pm10img.on("collect",async r => {
+            r.users.remove(message.author.id)
+            embed.image = null
+            embed.setImage(`${dustForecastData.imageUrl1}`)
+            await sendEmbed.reactions.removeAll()
+            sendEmbed.react("❌")
+            sendEmbed.react("Ⓜ")
+            sendEmbed.react("🟥")
+            sendEmbed.edit(embed)
+        })
+
+        pm25img.on("collect",async r => {
+            r.users.remove(message.author.id)
+            embed.image = null
+            embed.setImage(`${dustForecastData.imageUrl4}`)
+            await sendEmbed.reactions.removeAll()
+            sendEmbed.react("❌")
+            sendEmbed.react("Ⓜ")
+            sendEmbed.react("🟨")
+            sendEmbed.edit(embed)
+        })
+
+
         //stop
         stop.on("collect", r => {
             return sendEmbed.delete()
