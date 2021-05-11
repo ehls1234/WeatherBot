@@ -167,7 +167,8 @@ module.exports = {
                         )
                     .setTimestamp()
                     .setFooter(`SEDY Weather Page: ${page} / ${pages.length}`,'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
-                    const weatherFields = embed.fields.map(v => v)
+                
+                const weatherFields = embed.fields.map(v => v)
 
                 if(pages[page - 1][7] === undefined+"mm"){
                     weatherFields[7].value = "0mm"
@@ -242,7 +243,7 @@ module.exports = {
 
                 //stop
                     stop.on("collect", r => {
-                        return sendEmbed.delete()
+                        return sendEmbed.delete(),message.delete()
                     })
 
                 //Skip Forward

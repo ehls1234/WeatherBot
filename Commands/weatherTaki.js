@@ -106,7 +106,7 @@ module.exports = {
             
         //stop
         stop.on("collect", r => {
-            return sendEmbed.delete()
+            return sendEmbed.delete(),message.delete()
         })
 
     }//execute(message,args) 종료
