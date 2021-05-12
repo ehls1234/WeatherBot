@@ -156,26 +156,35 @@ module.exports = {
             `}`,inline: false})
         }
 
-        const dustForecastAxios = await axios
-            .get(`http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMinuDustFrcstDspth`,{
-                params: {
-                    serviceKey: "zoALXhvtGbPAtIKDwmsVk5KDDsO+aA7Y1CkDwLfdoxYk/3WHjJ68bvl27cvh+NOscS/uYHVspUWS+VgoIvr/Aw==",
-                    returnType: "json",
-                    searchDate: dustDay
-                }
-            })
-        const dustForecastData = dustForecastAxios.data.response.body.items[0]
+        let dustForecastData = null
+        let Dustfields = null
 
-        const Dustfields = [            
-        {name:"미세먼지 정보",value: `${stripIndents`
-        **발생원인**
-        ${dustForecastData.informCause}
-        **예보개황**
-        ${dustForecastData.informOverall}
-        **통보시간**
-        ${dustForecastData.dataTime}
-        `}`,inline: false}
-        ]
+        try{
+            const dustForecastAxios = await axios
+                .get(`http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMinuDustFrcstDspth`,{
+                    params: {
+                        serviceKey: "zoALXhvtGbPAtIKDwmsVk5KDDsO+aA7Y1CkDwLfdoxYk/3WHjJ68bvl27cvh+NOscS/uYHVspUWS+VgoIvr/Aw==",
+                        returnType: "json",
+                        searchDate: dustDay
+                    }
+                })
+            dustForecastData = dustForecastAxios.data.response.body.items[0]
+            
+            if(dustForecastData != null){
+            Dustfields = [            
+            {name:"미세먼지 정보",value: `${stripIndents`
+            **발생원인**
+            ${dustForecastData.informCause}
+            **예보개황**
+            ${dustForecastData.informOverall}
+            **통보시간**
+            ${dustForecastData.dataTime}
+            `}`,inline: false}
+            ]}
+        }
+        catch(err){
+            console.log(err)
+        }
 
         const embed = new Discord.MessageEmbed()
             .setTitle(`${cityname}`)
@@ -218,8 +227,14 @@ module.exports = {
         dust.on("collect",async r => {
             r.users.remove(message.author.id)
             embed.setFooter(`🟥 = PM2.5 , 🟨 = PM10`)
+            if(dustForecastData != null){
             embed.fields = Dustfields
             embed.setImage(`${dustForecastData.imageUrl1}`)
+            }else{
+                embed.fields = [{name:"미세먼지 정보",value: `${stripIndents`
+                서비스 상태가 원활하지 않습니다. 잠시 뒤에 시도해 주세요.
+                `}`,inline: false}]
+            }
             await sendEmbed.reactions.removeAll()
             sendEmbed.react("❌")
             sendEmbed.react("Ⓜ")
@@ -229,7 +244,9 @@ module.exports = {
 
         pm10img.on("collect",async r => {
             r.users.remove(message.author.id)
+            if(dustForecastData != null){
             embed.setImage(`${dustForecastData.imageUrl1}`)
+            }
             await sendEmbed.reactions.removeAll()
             sendEmbed.react("❌")
             sendEmbed.react("Ⓜ")
@@ -239,7 +256,9 @@ module.exports = {
 
         pm25img.on("collect",async r => {
             r.users.remove(message.author.id)
+            if(dustForecastData != null){
             embed.setImage(`${dustForecastData.imageUrl4}`)
+            }
             await sendEmbed.reactions.removeAll()
             sendEmbed.react("❌")
             sendEmbed.react("Ⓜ")
