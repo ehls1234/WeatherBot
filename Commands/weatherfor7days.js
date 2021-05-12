@@ -191,112 +191,111 @@ module.exports = {
             weatherFields[8].value = "0mm"
         }
 
-        message.channel.send(embed).then(sendEmbed => {
+        const sendEmbed = await message.channel.send(embed)
 
-            const emojiBox = ["⏪","◀","⏺","▶","⏩"]
-        
-            if (pages.length === 1) return
-
-            for(let i = 0; i < 5; i++){
-                sendEmbed.react(emojiBox[i])
-            }
-        
-            const backwardFilter = (reaction, user) => reaction.emoji.name === "◀" && user.id === message.author.id
-            const forwardFilter = (reaction, user) => reaction.emoji.name === "▶" && user.id === message.author.id
-            const stopFilter = (reaction, user) => reaction.emoji.name === "⏺" && user.id === message.author.id
-            const fastForwardFilter = (reaction, user) => reaction.emoji.name === "⏩" && user.id === message.author.id
-            const fastBackwardFilter = (reaction, user) => reaction.emoji.name === "⏪" && user.id === message.author.id
+        const emojiBox = ["⏪","◀","⏺","▶","⏩"]
     
-            const backward = sendEmbed.createReactionCollector(backwardFilter, {time: 900000, dispose: true})
-            const forward = sendEmbed.createReactionCollector(forwardFilter, {time: 900000, dispose: true})
-            const stop = sendEmbed.createReactionCollector(stopFilter, {time: 900000, dispose: true})
-            const fastReverse = sendEmbed.createReactionCollector(fastBackwardFilter, {time: 900000, dispose: true})
-            const fastForward = sendEmbed.createReactionCollector(fastForwardFilter, {time: 900000, dispose: true})
+        if (pages.length === 1) return
 
-            const weatherFields = embed.fields.map(v => v)
+        for(let i = 0; i < 5; i++){
+            sendEmbed.react(emojiBox[i])
+        }
+    
+        const backwardFilter = (reaction, user) => reaction.emoji.name === "◀" && user.id === message.author.id
+        const forwardFilter = (reaction, user) => reaction.emoji.name === "▶" && user.id === message.author.id
+        const stopFilter = (reaction, user) => reaction.emoji.name === "⏺" && user.id === message.author.id
+        const fastForwardFilter = (reaction, user) => reaction.emoji.name === "⏩" && user.id === message.author.id
+        const fastBackwardFilter = (reaction, user) => reaction.emoji.name === "⏪" && user.id === message.author.id
+
+        const backward = sendEmbed.createReactionCollector(backwardFilter, {time: 900000, dispose: true})
+        const forward = sendEmbed.createReactionCollector(forwardFilter, {time: 900000, dispose: true})
+        const stop = sendEmbed.createReactionCollector(stopFilter, {time: 900000, dispose: true})
+        const fastReverse = sendEmbed.createReactionCollector(fastBackwardFilter, {time: 900000, dispose: true})
+        const fastForward = sendEmbed.createReactionCollector(fastForwardFilter, {time: 900000, dispose: true})
+
+        const weatherFields = embed.fields.map(v => v)
 
 
-        
-        //Backward
-            backward.on("collect", r => {
-                r.users.remove(message.author.id)
-                if (page === 1) return
-                page--
-                embed.setDescription(`${page}일차 예보 날씨`).setFooter(`SEDY Weather page: ${page} / ${pages.length}`,'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
-                embed.setThumbnail(`${"http://openweathermap.org/img/w/" + pages[page - 1][9] + ".png"}`)
-                for(let v = 0; v < 9; v++){
-                    weatherFields[v].value = pages[page - 1][v]
-                }
-                if(pages[page - 1][7] === undefined+"mm"){
-                    weatherFields[7].value = "0mm"
-                }
-                if(pages[page - 1][8] === undefined+"mm"){
-                    weatherFields[8].value = "0mm"
-                }
-                sendEmbed.edit(embed)
-            })
+    
+    //Backward
+        backward.on("collect", r => {
+            r.users.remove(message.author.id)
+            if (page === 1) return
+            page--
+            embed.setDescription(`${page}일차 예보 날씨`).setFooter(`SEDY Weather page: ${page} / ${pages.length}`,'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
+            embed.setThumbnail(`${"http://openweathermap.org/img/w/" + pages[page - 1][9] + ".png"}`)
+            for(let v = 0; v < 9; v++){
+                weatherFields[v].value = pages[page - 1][v]
+            }
+            if(pages[page - 1][7] === undefined+"mm"){
+                weatherFields[7].value = "0mm"
+            }
+            if(pages[page - 1][8] === undefined+"mm"){
+                weatherFields[8].value = "0mm"
+            }
+            sendEmbed.edit(embed)
+        })
 
-        //Forward
-            forward.on("collect", r => {
-                r.users.remove(message.author.id)
-                if (page === pages.length) return
-                page++
-                embed.setDescription(`${page}일차 예보 날씨`).setFooter(`SEDY Weather page: ${page} / ${pages.length}`,'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
-                embed.setThumbnail(`${"http://openweathermap.org/img/w/" + pages[page - 1][9] + ".png"}`)
-                for(let v = 0; v < 9; v++){
-                    weatherFields[v].value = pages[page - 1][v]
-                }
-                if(pages[page - 1][7] === undefined+"mm"){
-                    weatherFields[7].value = "0mm"
-                }
-                if(pages[page - 1][8] === undefined+"mm"){
-                    weatherFields[8].value = "0mm"
-                }
-                sendEmbed.edit(embed)
-            })
+    //Forward
+        forward.on("collect", r => {
+            r.users.remove(message.author.id)
+            if (page === pages.length) return
+            page++
+            embed.setDescription(`${page}일차 예보 날씨`).setFooter(`SEDY Weather page: ${page} / ${pages.length}`,'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
+            embed.setThumbnail(`${"http://openweathermap.org/img/w/" + pages[page - 1][9] + ".png"}`)
+            for(let v = 0; v < 9; v++){
+                weatherFields[v].value = pages[page - 1][v]
+            }
+            if(pages[page - 1][7] === undefined+"mm"){
+                weatherFields[7].value = "0mm"
+            }
+            if(pages[page - 1][8] === undefined+"mm"){
+                weatherFields[8].value = "0mm"
+            }
+            sendEmbed.edit(embed)
+        })
 
-        //stop
-            stop.on("collect", r => {
-                return sendEmbed.delete(),message.delete()
-            })
+    //stop
+        stop.on("collect", r => {
+            return sendEmbed.delete(),message.delete()
+        })
 
-        //Skip Forward
-            fastForward.on("collect", r => {
-                r.users.remove(message.author.id)
-                if (page === pages.length) return
-                page = pages.length
-                embed.setDescription(`${page}일차 예보 날씨`).setFooter(`SEDY Weather page: ${page} / ${pages.length}`,'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
-                embed.setThumbnail(`${"http://openweathermap.org/img/w/" + pages[page - 1][9] + ".png"}`)
-                for(let v = 0; v < 9; v++){
-                    weatherFields[v].value = pages[page - 1][v]
-                }
-                if(pages[page - 1][7] === undefined+"mm"){
-                    weatherFields[7].value = "0mm"
-                }
-                if(pages[page - 1][8] === undefined+"mm"){
-                    weatherFields[8].value = "0mm"
-                }
-                sendEmbed.edit(embed)
-            })
+    //Skip Forward
+        fastForward.on("collect", r => {
+            r.users.remove(message.author.id)
+            if (page === pages.length) return
+            page = pages.length
+            embed.setDescription(`${page}일차 예보 날씨`).setFooter(`SEDY Weather page: ${page} / ${pages.length}`,'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
+            embed.setThumbnail(`${"http://openweathermap.org/img/w/" + pages[page - 1][9] + ".png"}`)
+            for(let v = 0; v < 9; v++){
+                weatherFields[v].value = pages[page - 1][v]
+            }
+            if(pages[page - 1][7] === undefined+"mm"){
+                weatherFields[7].value = "0mm"
+            }
+            if(pages[page - 1][8] === undefined+"mm"){
+                weatherFields[8].value = "0mm"
+            }
+            sendEmbed.edit(embed)
+        })
 
-        //Skip Reverse
-            fastReverse.on("collect", r => {
-                r.users.remove(message.author.id)
-                if (page === 1) return
-                page = 1
-                embed.setDescription(`${page}일차 예보 날씨`).setFooter(`SEDY Weather page: ${page} / ${pages.length}`,'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
-                embed.setThumbnail(`${"http://openweathermap.org/img/w/" + pages[page - 1][9] + ".png"}`)
-                for(let v = 0; v < 9; v++){
-                    weatherFields[v].value = pages[page - 1][v]
-                }
-                if(pages[page - 1][7] === undefined+"mm"){
-                    weatherFields[7].value = "0mm"
-                }
-                if(pages[page - 1][8] === undefined+"mm"){
-                    weatherFields[8].value = "0mm"
-                }
-                sendEmbed.edit(embed)
-            })
+    //Skip Reverse
+        fastReverse.on("collect", r => {
+            r.users.remove(message.author.id)
+            if (page === 1) return
+            page = 1
+            embed.setDescription(`${page}일차 예보 날씨`).setFooter(`SEDY Weather page: ${page} / ${pages.length}`,'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png')
+            embed.setThumbnail(`${"http://openweathermap.org/img/w/" + pages[page - 1][9] + ".png"}`)
+            for(let v = 0; v < 9; v++){
+                weatherFields[v].value = pages[page - 1][v]
+            }
+            if(pages[page - 1][7] === undefined+"mm"){
+                weatherFields[7].value = "0mm"
+            }
+            if(pages[page - 1][8] === undefined+"mm"){
+                weatherFields[8].value = "0mm"
+            }
+            sendEmbed.edit(embed)
         })
     }
 }
