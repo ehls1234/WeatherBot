@@ -49,6 +49,8 @@ module.exports = {
         let dustYear = dustToDay.getFullYear()   // 년도
         let dustMonth = dustToDay.getMonth() + 1 // 월
         let dustDate = dustToDay.getDate()       // 날짜
+        let dustTime = dustToDay.getHours()      // 시간
+
         if(dustMonth < 10){
             dustMonth = "0" + (dustToDay.getMonth() + 1)
         }
@@ -196,8 +198,9 @@ module.exports = {
                         searchDate: dustDay
                     }
                 })
-            dustForecastData = dustForecastAxios.data.response.body.items[0]
-            
+            dustForecastData = dustForecastAxios.data.response.body.items[12]
+
+
             if(dustForecastData != null){
             Dustfields = [            
             {name:"미세먼지 정보",value: `${stripIndents`
@@ -257,7 +260,7 @@ module.exports = {
             embed.setFooter(`🟥 = PM2.5 , 🟨 = PM10`)
             if(dustForecastData != null){
             embed.fields = Dustfields
-            embed.setImage(`${dustForecastData.imageUrl1}`)
+            embed.setImage(`${dustForecastData.imageUrl2}`)
             }else{
                 embed.fields = [{name:"미세먼지 정보",value: `${stripIndents`
                 서비스 상태가 원활하지 않습니다. 잠시 뒤에 시도해 주세요.
@@ -273,7 +276,7 @@ module.exports = {
         pm10img.on("collect",async r => {
             r.users.remove(message.author.id)
             if(dustForecastData != null){
-            embed.setImage(`${dustForecastData.imageUrl1}`)
+            embed.setImage(`${dustForecastData.imageUrl2}`)
             }
             await sendEmbed.reactions.removeAll()
             sendEmbed.react("❌")
@@ -285,7 +288,7 @@ module.exports = {
         pm25img.on("collect",async r => {
             r.users.remove(message.author.id)
             if(dustForecastData != null){
-            embed.setImage(`${dustForecastData.imageUrl4}`)
+            embed.setImage(`${dustForecastData.imageUrl5}`)
             }
             await sendEmbed.reactions.removeAll()
             sendEmbed.react("❌")
