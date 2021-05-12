@@ -1,5 +1,5 @@
 module.exports = {
-    name: "날씨도움말",
+    name: "날씨",
     async execute(message){
         const Discord = require('discord.js')
         const {stripIndents} = require("common-tags")
