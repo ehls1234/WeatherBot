@@ -213,10 +213,6 @@ module.exports = {
         const fastReverse = sendEmbed.createReactionCollector(fastBackwardFilter, {time: 900000, dispose: true})
         const fastForward = sendEmbed.createReactionCollector(fastForwardFilter, {time: 900000, dispose: true})
 
-        const weatherFields = embed.fields.map(v => v)
-
-
-    
     //Backward
         backward.on("collect", r => {
             r.users.remove(message.author.id)
