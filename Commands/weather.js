@@ -17,10 +17,9 @@ module.exports = {
                 "query": args.join(" ")
             }
         }
-            
+        
         const naverAxios = await axios
             .get("https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode", naverGeo)
-
         const API_KEY = "c13f40978e5aeaf76792cac87a6b3de6"
         const API_URL = `https://api.openweathermap.org/data/2.5/onecall`
         // ?lat=${lat}&lon=${lon}&exclude=${part}&appid=${API_KEY}`
@@ -46,17 +45,6 @@ module.exports = {
             dustMonth = "0" + (dustToDay.getMonth() + 1)
         }
         let dustDay = `${dustYear}-${dustMonth}-${dustDate}`
-
-        const dustForecastAxios = await axios
-            .get(`http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMinuDustFrcstDspth`,{
-                params: {
-                    serviceKey: "zoALXhvtGbPAtIKDwmsVk5KDDsO+aA7Y1CkDwLfdoxYk/3WHjJ68bvl27cvh+NOscS/uYHVspUWS+VgoIvr/Aw==",
-                    returnType: "json",
-                    searchDate: dustDay
-                }
-            })
-        const dustForecastData = dustForecastAxios.data.response.body.items[0]
-
 
         let concentration10 = null, concentration25 = null, pm10Value = null, pm25Value = null, isDustProcessed = false
         
@@ -161,12 +149,22 @@ module.exports = {
             `}`,inline: false}
         ]
         
-        if (isDustProcessed === true ) {
+        if (isDustProcessed === true) {
             fields.push({name:"🌫미세먼지", value:`${stripIndents`
             초미세먼지(PM 2.5) : ${pm25Value} ㎍/㎥ , ${concentration25}
             미세먼지(PM 10) : ${pm10Value} ㎍/㎥ , ${concentration10}
             `}`,inline: false})
         }
+
+        const dustForecastAxios = await axios
+            .get(`http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMinuDustFrcstDspth`,{
+                params: {
+                    serviceKey: "zoALXhvtGbPAtIKDwmsVk5KDDsO+aA7Y1CkDwLfdoxYk/3WHjJ68bvl27cvh+NOscS/uYHVspUWS+VgoIvr/Aw==",
+                    returnType: "json",
+                    searchDate: dustDay
+                }
+            })
+        const dustForecastData = dustForecastAxios.data.response.body.items[0]
 
         const Dustfields = [            
         {name:"미세먼지 정보",value: `${stripIndents`
@@ -219,7 +217,6 @@ module.exports = {
 
         dust.on("collect",async r => {
             r.users.remove(message.author.id)
-            embed.fields = null
             embed.setFooter(`🟥 = PM2.5 , 🟨 = PM10`)
             embed.fields = Dustfields
             embed.setImage(`${dustForecastData.imageUrl1}`)
@@ -232,7 +229,6 @@ module.exports = {
 
         pm10img.on("collect",async r => {
             r.users.remove(message.author.id)
-            embed.image = null
             embed.setImage(`${dustForecastData.imageUrl1}`)
             await sendEmbed.reactions.removeAll()
             sendEmbed.react("❌")
@@ -243,7 +239,6 @@ module.exports = {
 
         pm25img.on("collect",async r => {
             r.users.remove(message.author.id)
-            embed.image = null
             embed.setImage(`${dustForecastData.imageUrl4}`)
             await sendEmbed.reactions.removeAll()
             sendEmbed.react("❌")
