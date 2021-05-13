@@ -198,8 +198,7 @@ module.exports = {
                         searchDate: dustDay
                     }
                 })
-            dustForecastData = dustForecastAxios.data.response.body.items[12]
-
+            dustForecastData = dustForecastAxios.data.response.body.items[0]
 
             if(dustForecastData != null){
             Dustfields = [            
@@ -260,7 +259,7 @@ module.exports = {
             embed.setFooter(`🟥 = PM2.5 , 🟨 = PM10`)
             if(dustForecastData != null){
             embed.fields = Dustfields
-            embed.setImage(`${dustForecastData.imageUrl2}`)
+            embed.setImage(`${dustForecastData.imageUrl1}`)
             }else{
                 embed.fields = [{name:"미세먼지 정보",value: `${stripIndents`
                 서비스 상태가 원활하지 않습니다. 잠시 뒤에 시도해 주세요.
@@ -276,7 +275,7 @@ module.exports = {
         pm10img.on("collect",async r => {
             r.users.remove(message.author.id)
             if(dustForecastData != null){
-            embed.setImage(`${dustForecastData.imageUrl2}`)
+            embed.setImage(`${dustForecastData.imageUrl1}`)
             }
             await sendEmbed.reactions.removeAll()
             sendEmbed.react("❌")
@@ -288,7 +287,7 @@ module.exports = {
         pm25img.on("collect",async r => {
             r.users.remove(message.author.id)
             if(dustForecastData != null){
-            embed.setImage(`${dustForecastData.imageUrl5}`)
+            embed.setImage(`${dustForecastData.imageUrl4}`)
             }
             await sendEmbed.reactions.removeAll()
             sendEmbed.react("❌")
