@@ -3,6 +3,7 @@ module.exports = {
     async execute(message,args){
         const Discord = require('discord.js')
         const axios = require('axios')
+        const {stripIndents} = require('common-tags')
         
         if(args[0] == null) return message.reply(new Discord.MessageEmbed().setTitle("올바른 정보를 입력해 주세요.").setColor("#ff5858")
         .addField("사용법","!7일날씨 <시/도>"))
@@ -174,7 +175,7 @@ module.exports = {
                 {name:"자외선 지수", value:`${pages[page - 1][2]}`, inline: true},
                 {name:"평균 온도",value: `${pages[page - 1][3]}`,inline: true},
                 {name:"체감 온도", value:`${pages[page - 1][4]}`, inline: true},
-                {name:"습도",value: `${pages[page - 1][5]}`,inline: true},
+                {name:"습도",value: `${pages[page - 1][5]}`,inline: false},
                 {name:"강수 확률", value:`${pages[page - 1][6]}`, inline: true},
                 {name:"강수량", value:`${pages[page - 1][7]}`, inline: true},
                 {name:"적설량", value:`${pages[page - 1][8]}`, inline: true}
@@ -193,7 +194,7 @@ module.exports = {
 
         const sendEmbed = await message.channel.send(embed)
 
-        const emojiBox = ["⏪","◀","⏺","▶","⏩"]
+        const emojiBox = ["⏪","◀","❌","▶","⏩"]
     
         if (pages.length === 1) return
 
@@ -203,7 +204,7 @@ module.exports = {
     
         const backwardFilter = (reaction, user) => reaction.emoji.name === "◀" && user.id === message.author.id
         const forwardFilter = (reaction, user) => reaction.emoji.name === "▶" && user.id === message.author.id
-        const stopFilter = (reaction, user) => reaction.emoji.name === "⏺" && user.id === message.author.id
+        const stopFilter = (reaction, user) => reaction.emoji.name === "❌" && user.id === message.author.id
         const fastForwardFilter = (reaction, user) => reaction.emoji.name === "⏩" && user.id === message.author.id
         const fastBackwardFilter = (reaction, user) => reaction.emoji.name === "⏪" && user.id === message.author.id
 
