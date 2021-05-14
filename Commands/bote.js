@@ -6,6 +6,8 @@ module.exports = {
 
         const embed = new Discord.MessageEmbed()
 
+        return message.reply("점검중 입니다.")
+    
         let mentions = []
         let userFields = []
         let userIdSet = new Set()
@@ -57,10 +59,14 @@ module.exports = {
         })
 
         me.on("collect",async r => {
+            console.log(message.author)
             r.users.remove(message.author.id)
             if(userIdSet.has((message.author)) === true){
                 message.reply("여러번 누르지 마세요!")
-            }else{
+            }else if(mentions.length == boteCount){
+                return message.reply("인원이 다차서 마감 되었습니다.")
+            }
+            else{
                 userFields.push(
                 {name:"사용자",value: `${stripIndents`
                 ${message.author.username}
@@ -86,7 +92,7 @@ module.exports = {
                     message.channel.send(`${mentions[u]}`)
                 }
             }
-            sendEmbed.edit(embed)
+            sendEmbed.edit(embed)   
         })
     }
 }
