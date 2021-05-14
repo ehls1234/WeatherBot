@@ -5,10 +5,7 @@ module.exports = {
         const {stripIndents} = require('common-tags')
 
         const embed = new Discord.MessageEmbed()
-
-        return message.reply("점검중 입니다.")
     
-        let mentions = []
         let userFields = []
         let userIdSet = new Set()
         let boteCount = args[1]
@@ -58,40 +55,47 @@ module.exports = {
             return message.channel.send(`"${args[0]}"모집이 종료 되었습니다.`)
         })
 
+    
+        let mentions = []
+
         me.on("collect",async r => {
-            console.log(message.author)
-            r.users.remove(message.author.id)
-            if(userIdSet.has((message.author)) === true){
-                message.reply("여러번 누르지 마세요!")
-            }else if(mentions.length == boteCount){
-                return message.reply("인원이 다차서 마감 되었습니다.")
+          //  console.log(r.users.cache.values())
+            for(let user of r.users.cache.values()){
+                console.log(user)
+                if(user.bot == true){
+                }else if(mentions.length == boteCount){
+                    return user.send(`${user}"인원이 다차서 마감 되었습니다."`)
+                }else if(userIdSet.has(user.id)){
+                }else{
+                    console.log(r.users.cache)
+                    userFields.push(
+                    {name:"사용자",value: `${stripIndents`
+                    ${user.username}
+                    `}`,inline: true}
+                    )
+                    embed.fields = userFields
+                    mentions.push(user)
+                    userIdSet.add(user.id)
+                }
             }
-            else{
-                userFields.push(
-                {name:"사용자",value: `${stripIndents`
-                ${message.author.username}
-                `}`,inline: true}
-                )
-                embed.fields = userFields
-                mentions.push(message.author)
-                userIdSet.add(message.author)
+            if(mentions.length == boteCount){
+                sendEmbed.reactions.removeAll()
+                sendEmbed.react("💌")
+                sendEmbed.react("❌")
             }
             sendEmbed.edit(embed)
         })
 
         here.on("collect",async r => {
-            r.users.remove(message.author.id)
-            console.log(userIdSet.User)
-            for(let u = 0; u <= boteCount; u++){
-                if(mentions.length == 0){
-                    return message.channel.send(`모집대상이 없습니다.`)
-                }else if(mentions[u] == null){
-                    return message.channel.send(`모집대상 ${mentions.length}명 호출 했습니다.`)
-                }
-                else{
-                    message.channel.send(`${mentions[u]}`)
-                }
+            let mentionString = ``
+            if(mentions.length == 0){
+                return message.channel.send(`모집대상이 없습니다.`)
             }
+            for(let u = 0; u < mentions.length; u++){
+                    mentionString+= `${mentions[u]}`
+            }
+            message.channel.send(`${mentionString}`)
+            message.channel.send(`모집대상 ${mentions.length}명 호출 했습니다.`)
             sendEmbed.edit(embed)   
         })
     }
