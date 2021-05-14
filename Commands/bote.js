@@ -9,15 +9,25 @@ module.exports = {
         let mentions = []
         let userFields = []
         let userIdSet = new Set()
-    
+        let boteCount = args[1]
+
         try{
             if(args[0] == null){
-               return message.reply("모집할 항목을 입력해주세요 !모집 <항목>")
-            }else{
+                return message.reply("모집할 항목을 입력해주세요 !모집 <항목> <숫자(명수)>")
+            }else if(boteCount == null || isNaN(args[1]) === true){
+                return message.reply("모집할 명수를 입력해주세요 !모집 <항목> <숫자(명수)>")
+            }else if(args[1] >= 16){
+                return message.reply("현재 15명 까지만 지원 됩니다. 'SEDY'에게 문의해 주세요.")
+            }
+            else{
             embed.setColor("#4682b4")
-            embed.setTitle(`"${args[0]}" 모집을 시작 합니다.`)
+            embed.setTitle(`"${args[0]}" ${args[1]}명 모집을 시작 합니다.`)
             embed.addFields(userFields)
             embed.setTimestamp()
+            embed.setDescription(`${stripIndents`
+            🖐 = 저요!
+            💌 = 인원 호출(모집시작자)
+            ❌ = 종료`}`)
         }}
         catch(err){
             console.error(err)
@@ -66,7 +76,7 @@ module.exports = {
         here.on("collect",async r => {
             r.users.remove(message.author.id)
             console.log(userIdSet.User)
-            for(let u = 0; u <= 20; u++){
+            for(let u = 0; u <= boteCount; u++){
                 if(mentions.length == 0){
                     return message.channel.send(`모집대상이 없습니다.`)
                 }else if(mentions[u] == null){
