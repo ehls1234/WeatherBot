@@ -20,7 +20,7 @@ module.exports = {
             }
             else{
             embed.setColor("#4682b4")
-            embed.setTitle(`"${args[0]}" ${args[1]}명 모집을 시작 합니다.`)
+            embed.setTitle(`"${args[0]}"  ${args[1]}명 모집을 시작 합니다.`)
             embed.addFields(userFields)
             embed.setTimestamp()
             embed.setDescription(`${stripIndents`
@@ -51,7 +51,12 @@ module.exports = {
             embed.setColor("FF0000")
             embed.setTitle(`"${args[0]}" 모집이 종료 되었습니다.`)
             await sendEmbed.reactions.removeAll()
+            embed.setDescription(`${stripIndents`
+            모집 인원이 전부 찼습니다.
+            💌 = 인원 호출(모집시작자)
+            `}`)
             sendEmbed.edit(embed)
+            sendEmbed.react("💌")
             return message.channel.send(`"${args[0]}"모집이 종료 되었습니다.`)
         })
 
@@ -59,15 +64,13 @@ module.exports = {
         let mentions = []
 
         me.on("collect",async r => {
-          //  console.log(r.users.cache.values())
+            
             for(let user of r.users.cache.values()){
-                console.log(user)
                 if(user.bot == true){
                 }else if(mentions.length == boteCount){
                     return user.send(`${user}"인원이 다차서 마감 되었습니다."`)
                 }else if(userIdSet.has(user.id)){
                 }else{
-                    console.log(r.users.cache)
                     userFields.push(
                     {name:"사용자",value: `${stripIndents`
                     ${user.username}
@@ -80,6 +83,10 @@ module.exports = {
             }
             if(mentions.length == boteCount){
                 sendEmbed.reactions.removeAll()
+                embed.setDescription(`${stripIndents`
+                모집 인원이 전부 찼습니다.
+                💌 = 인원 호출(모집시작자)
+                ❌ = 종료`}`)
                 sendEmbed.react("💌")
                 sendEmbed.react("❌")
             }
@@ -87,6 +94,7 @@ module.exports = {
         })
 
         here.on("collect",async r => {
+            r.users.remove(message.author.id)
             let mentionString = ``
             if(mentions.length == 0){
                 return message.channel.send(`모집대상이 없습니다.`)
