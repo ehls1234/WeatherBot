@@ -16,7 +16,7 @@ module.exports = {
                 .setTitle("올바른 정보를 입력해주세요")
                 .setColor("#ff5858")
                 .addField("사용법",`${stripIndents`
-                !변환 미터 <숫자>   // 제곱미터(m2)를 평으로 변경 합니다.
+                !변환 미터 <숫자>   // 제곱미터(㎡)를 평으로 변경 합니다.
                 !변환 화씨 <숫자>   // 화씨(℉))를 섭씨(℃)로 변경 합니다.
                 !변환 온스 <숫자>   // 온스(oz)를 그램(g)으로 변경 합니다.
                 !변환 파운드 <숫자> // 파운드(lb)를 그램(g)으로 변경 합니다.
@@ -31,7 +31,7 @@ module.exports = {
 
                 transResult = peung.toFixed(2)
                 transUnit = "평"
-                translatedData = "m2 - > 평"
+                translatedData = "㎡ - > 평"
             }else if(args[0] == "화씨" && isNaN(args[1]) === false){
                 let fahrenheit = args[1]
                 let celsius = (fahrenheit-32) * 5/9
