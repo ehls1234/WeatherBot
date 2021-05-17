@@ -4,14 +4,16 @@ module.exports = {
         const Discord = require('discord.js')
         const axios = require('axios').default
         const {stripIndents} = require('common-tags')
+        const { X_NCP_APIGW_API_KEY_ID, X_NCP_APIGW_API_KEY, 
+            dustServiceKey, openWeatherMapKey } = require('../axiosConfig.json')
     
         if(args[0] == null) return message.reply(new Discord.MessageEmbed().setTitle("올바른 시를 입력해주세요").setColor("#ff5858")
         .addField("사용법","!내일날씨 <시/도>"))
     
         const naverGeo = {
             headers: {
-                'X-NCP-APIGW-API-KEY-ID': 'oulqcr7gqi',
-                'X-NCP-APIGW-API-KEY': 'gywZuBAAs9J1Qo5NzxaMY5N4i0mDMjyregJQlvtM'
+                'X-NCP-APIGW-API-KEY-ID': X_NCP_APIGW_API_KEY_ID,
+                'X-NCP-APIGW-API-KEY': X_NCP_APIGW_API_KEY
             },
             params: {
                 "query": args.join(" ")
@@ -42,7 +44,7 @@ module.exports = {
             return message.reply("naverMaps API를 받아 올 수 없습니다.")
         }
 
-        const API_KEY = "c13f40978e5aeaf76792cac87a6b3de6"
+        const API_KEY = openWeatherMapKey
         const API_URL = `https://api.openweathermap.org/data/2.5/onecall`
         // ?lat=${lat}&lon=${lon}&exclude=${part}&appid=${API_KEY}`
         let nextDay = null        
